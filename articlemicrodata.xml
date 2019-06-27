@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.0" type="plugin" group="content" method="upgrade">
+    <name>Content - Article Microdata</name>
+    <author>Massimo Di Primio</author>
+    <creationDate>Apr 01, 2016</creationDate>
+    <copyright>Copyright (C) 2016 diprimio.com. All rights reserved.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL2 or higher</license>
+    <author>Massimo Di Primio</author>
+    <authorUrl>www.diprimio.com/</authorUrl>
+    <authorEmail>m.diprimio@agosfera.com</authorEmail>
+    <version>1.0.b10</version>
+    <description>   <![CDATA[
+    <u>Article Microdata K2</u><br /><br />For help, support and FAQ visit: <a href='http://www.diprimio.com' target='_blank'>www.diprimio.com</a>.<br />
+    For specific structured data tags, please visit: <a href='http://www.schema.org' target='_blank'>www.schema.org</a>.<br />
+    For specific information about Google Structured Data, please visit <a href='https://developers.google.com/search/docs/data-types/data-type-selector' target="_blank">Introduction to Structured Data Types</a>.<br /><br />
+    ]]></description>
+    <files>
+        <folder>classes</folder>
+        <filename plugin="articlemicrodata">articlemicrodata.php</filename>
+        <filename plugin="articlemicrodata">articlemicrodata.xml</filename><!-- Not Needed, but usefull -->
+        <filename plugin="articlemicrodata">index.html</filename>
+        <!--
+        <filename plugin="articlemicrodata">includes/index.html</filename>
+        <filename plugin="articlemicrodata">includes/elements/index.html</filename>
+        <filename plugin="articlemicrodata">includes/elements/categories.php</filename>
+        <filename plugin="articlemicrodata">includes/elements/menu.php</filename>
+        -->
+    </files>
+    <!--<params addpath="/plugins/content/articlemicrodata/includes/elements"></params>-->
+    <languages>
+        <language tag="en-GB">languages/en-GB/en-GB.plg_content_articlemicrodata.ini</language>
+    </languages>
+  <config>
+
+  <fields name="params" addfieldpath="/plugins/content">
+    <!-- ***** Basic plugin settings ***** -->
+    <fieldset name="basic">
+        <!-- Determine whether to add microata at the top or at the bottom of the article  -->
+        <field
+            name="amdcfg_position"
+            type="list"
+            default="1"
+            label="AMD_RICHSNIPPET_BLOCK_POSITION"
+            description="AMD_RICHSNIPPET_BLOCK_POSITION_DESC">
+            <option value="1">AMD_RICHSNIPPET_BLOCK_POSITION_BEFORE</option>
+            <option value="2">AMD_RICHSNIPPET_BLOCK_POSITION_AFTER</option>
+        </field>
+
+        <!-- Choose rich snippet format (None, Microdata or LD+JSON) -->
+        <field 
+            name="amdcfg_format"
+            type="list"
+            default="0"
+            label="AMD_RICHSNIPPET_FORMAT"
+            description="AMD_RICHSNIPPET_FORMAT_DESC">
+            <option value="0">AMD_RICHSNIPPET_FOMAT_NONE</option>
+            <option value="1">AMD_RICHSNIPPET_FOMAT_JSON</option>
+            <!--<option value="1">AMD_RICHSNIPPET_FOMAT_MDATA</option> Currently MICRODATA IS NOT SUPPORTED -->
+        </field>
+        
+        <!-- Choose rich snippet format (None, Microdata or LD+JSON) -->
+        <field 
+            name="amdcfg_protocol"
+            type="list"
+            default="0"
+            label="AMD_SCHEMAORG_PROTOCOL"
+            description="AMD_SCHEMAORG_PROTOCOL_DESC">
+            <option value="0">AMD_SCHEMAORG_PROTOCOL_HTTP</option>
+            <option value="1">AMD_SCHEMAORG_PROTOCOL_HTTPS</option>
+            <!--<option value="1">AMD_RICHSNIPPET_FOMAT_MDATA</option> Currently MICRODATA IS NOT SUPPORTED -->
+        </field>
+
+
+        <!-- Choose if enabled for Joomla com_content -->
+        <field
+            name="amdcfg_enableK2Content"
+            type="radio"
+            class="radio btn-group"
+            default="1"
+            label="AMD_ENABLE_K2CONTENT"
+            description="AMD_ENABLE_K2CONTENT_DESC">
+            <option value="0">AMD_NO</option>
+            <option value="1">AMD_YES</option>
+        </field>
+
+        <!-- Choose if enabled for Joomla com_content -->
+        <field
+            name="amdcfg_enableJoomlaContent"
+            type="radio"
+            class="radio btn-group"
+            default="1"
+            label="AMD_ENABLE_JOOMLACONTENT"
+            description="AMD_ENABLE_JOOMLACONTENT_DESC">
+            <option value="0">AMD_NO</option>
+            <option value="1">AMD_YES</option>
+        </field>
+
+        <!-- Flag for plugin debug (will be removed soon) class="radio btn-group"-->
+        <field 
+            name="amdcfg_debug"
+            type="radio"
+            class="radio btn-group"
+            default="0"
+            label="AMD_DEBUG_PLUGIN"
+            description="AMD_DEBUG_PLUGIN_DESC">
+            <option value="0">AMD_NO</option>
+            <option value="1">AMD_YES</option>
+        </field>
+
+        <!-- Control whether to display or not [class="btn-group"]-->
+        <!--
+        <field name="amdcfg_display" type="list" default="0" label="AMD_DEBUG__SHOWTOUSERS" description="AMD_DEBUG__SHOWTOUSERS_DESC">
+            <option value="0">AMD_NO</option>
+            <option value="1">AMD_YES</option>
+        </field>
+        -->
+
+    </fieldset>
+    <!--
+        ************************************
+        ***** WebSite/WebPage settings *****
+        ************************************
+    -->
+    <fieldset name="Website">
+        <field name="spacer_publisher_general" type="spacer" label="&lt;hr /&gt;&lt;b&gt;WebSite basic information section&lt;/b&gt;"/>
+        <!-- The Website amdcfg_website_enable -->
+        <field
+            name="amdcfg_website_enable"
+            type="radio"
+            class="radio btn-group"
+            default="0"
+            label="AMD_WEBSITE_ENABLE"
+            description="AMD_WEBSITE_ENABLE_DESC">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        
+        <!-- The Website Name -->
+        <field
+            name="amdcfg_website_name"
+            type="text"
+            label="AMD_WEBSITE_NAME"
+            description="AMD_WEBSITE_NAME_DESC">
+        </field>
+
+        <!-- The Website Alternate Name --> 
+        <!-- WRNING! 'altname' is not currently recognized by google -->
+        <field
+            name="amdcfg_website_altname"
+            type="text"
+            label="AMD_WEBSITE_ALTNAME"
+            description="AMD_WEBSITE_ALTNAME_DESC">
+        </field>
+        
+        <field name="spacer_publisher_general" type="spacer" label="&lt;hr /&gt;&lt;b&gt;WebSite siteSearch information section&lt;/b&gt;"/>
+        <!-- Google Site Search -->
+        <field
+            name="amdcfg_sitesearch_enable"
+            type="radio"
+            class="radio btn-group"
+            default="0"
+            label="AMD_SITESEARCH_ENABLE"
+            description="AMD_SITESEARCH_ENABLE_DESC">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        
+        <!-- Google Site Search String -->
+        <field name="amdcfg_sitesearch_string" type="text" default="" label="AMD_WEBSITE_SITESEARCH_STR" description="AMD_WEBSITE_SITESEARCH_STR_DESCR" />
+        
+        <!-- The Website Url -->
+        <field
+            name="amdcfg_website_url"
+            type="text"
+            label="AMD_WEBSITE_URL"
+            description="AMD_WEBSITE_URL_DESC">
+        </field>
+        
+        <field name="spacer_publisher_special_pages" type="spacer" label="&lt;hr /&gt;&lt;b&gt;WebSite special pages information section&lt;/b&gt;"/>
+        <!-- WebSite Home Page -->
+        <field name="selectedMenuHome" type="menuitem" default="" label="AMD_WEBSITE_HOMEPAGE" description="AMD_WEBSITE_HOMEPAGE_DESCR" />
+        
+        <!-- Aboout-Us Page -->
+        <field name="selectedMenusAboutUs" type="menuitem" default="" label="AMD_WEBSITE_ABOUTUSPAGE" description="AMD_WEBSITE_ABOUTUSPAGE_DESCR" />
+        
+        <!-- Contact Page -->
+        <field name="selectedMenusContacts" type="menuitem" default="" label="AMD_WEBSITE_CONTACTPAGE" description="AMD_WEBSITE_CONTACTPAGE_DESCR" />
+        
+        <field name="spacer_publisher_additional" type="spacer" label="&lt;hr /&gt;&lt;b&gt;WebSite aditional information section&lt;/b&gt;"/>
+        <!-- The dateCreated -->
+    <!--<field name="amdcfg_website_dateCreated" type="text" label="AMD_WEBSITE_DATE_CREATED" description="AMD_WEBSITE_DATE_CREATED_DESC"> </field>-->
+        <field name="amdcfg_website_dateCreated" type="calendar" label="AMD_WEBSITE_DATE_CREATED" description="AMD_WEBSITE_DATE_CREATED_DESC" default="NOW" format="%Y-%m-%d"> </field>
+        
+        <!-- The Website image -->
+        <!--<field name="amdcfg_website_image" type="text" label="AMD_WEBSITE_IMAGE" description="AMD_WEBSITE_IMAGE_DESC"> </field>-->
+        <field name="amdcfg_website_image" type="media" default="" label="AMD_WEBSITE_IMAGE" description="AMD_WEBSITE_IMAGE_DESC" directory="/" />
+        
+        <!-- The Website Copyright holder -->
+        <field
+            name="amdcfg_website_copyrightHolder"
+            type="text"
+            label="AMD_WEBSITE_COPYRIGHTHOLDER"
+            description="AMD_WEBSITE_COPYRIGHTHOLDER_DESC">
+        </field>
+        
+        <!-- The Website Copyright Year -->
+        <field
+            name="amdcfg_website_copyrightYear"
+            type="text"
+            label="AMD_WEBSITE_COPYRIGHTYEAR"
+            description="AMD_WEBSITE_COPYRIGHTYEAR_DESC">
+        </field>
+        <!-- The Website isFamilyFriendly -->
+        <field
+            name="amdcfg_isFamilyFriendly"
+            type="radio"
+            class="radio btn-group"
+            default="false"
+            label="AMD_ISFAMILYFRIENDLY"
+            description="AMD_ISFAMILYFRIENDLY_DESC">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+
+        <!-- The Website amdcfg_webpage_enable [DEPRECATED]-->
+        <!--<field name="amdcfg_webpage_enable" type="radio" class="radio btn-group" default="0" label="AMD_DEBUG_WEBPAGE_ENABLE" description="AMD_DEBUG_WEBPAGE_ENABLE_DESC">
+            <option value="false">JNO</option>
+            <option value="true">JYES</option>
+        </field>
+        -->
+    </fieldset>
+
+    <!-- 
+        ****************************
+        ***** Article settings *****
+        ****************************
+    -->
+    <fieldset name="article" addfieldpath="/administrator/components/com_k2/elements/">
+        <!-- Determine the count type -->
+        <field
+            name="amdcfg_counttype"
+            type="list"
+            default="0"
+            label="AMD_COUNT_TYPE"
+            description="AMD_COUNT_TYPE_DESC">
+            <option value="1">AMD_COUNT_RATINGS</option>
+            <option value="0">AMD_COUNT_VOTES</option>
+        </field>
+
+        <!-- Determine if we want to show ratings if that is 0 (never voted) -->
+        <field 
+            name="amdcfg_forceonzerorating"
+            type="radio"
+            class="radio btn-group"
+            default="0"
+            label="AMD_COUNT_FORCEONZERO"
+            description="AMD_COUNT_FORCEONZERO_DESC">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+
+        <!-- Define the our adopted 'Worst Rating' -->
+        <field
+            name="amdcfg_rating_worst"
+            type="text"
+            default="0"
+            label="AMD_RATING_WORST"
+            description="AMD_RATING_WORST_DESC">
+        </field>
+
+        <!-- Define the our adopted 'Best Rating' -->
+        <field
+            name="amdcfg_rating_best"
+            type="text"
+            default="5"
+            label="AMD_RATING_BEST"
+            description="AMD_RATING_BEST_DESC">
+        </field>
+
+        <!-- Chose what "interactionCount" to add to the content -->
+                <field
+            name="amdcfg_interactionCount"
+            type="radio"
+            class="radio btn-group"
+            default="0"
+            label="AMD_ITERACTIONCOUNT"
+            description="AMD_ITERACTIONCOUNT_DESC">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+
+        <!-- Value for article headline size in chars -->
+        <field 
+            name="amdcfg_headline_size"
+            type="text"
+            label="AMD_HEADLINE_SIZE"
+            default="60"
+            description="AMD_HEADLINE_SIZE_DESC">
+        </field>
+        
+        <!-- Default article image, if article does not have one -->
+        <!--<field name="amdcfg_def_article_img" type="text" label="AMD_DEFAULT_ARTICLE_IMG" default="" description="AMD_DEFAULT_ARTICLE_IMG_DESC"> </field>-->
+        <field name="amdcfg_def_article_img" type="media" default="" label="AMD_DEFAULT_ARTICLE_IMG" description="AMD_DEFAULT_ARTICLE_IMG_DESC" directory="/" />
+
+        <field 
+            name="_com_content_categories"
+            type="category"
+            extension="com_content"
+            multiple="true"
+            class="amdTip"
+            default=""
+            label="AMD_COM_JOOMLA_CONTENT_CATEGORY"
+            description="AMD_COM_JOOMLA_CONTENT_CATEGORY_DESC">
+            <option value="__all_com_content_categories__">JOPTION_ALL_CATEGORIES</option>
+        </field>
+
+        <!-- Chosee K2 categories Article-->
+        <field
+            name="_com_k2_categories_article"
+            type="categoriesmultiple"
+            extension="com_k2"
+            default=""
+            label="AMD_COM_K2_CONTENT_CATEGORY_ARTICLE"
+            description="AMD_COM_K2_CONTENT_CATEGORY_ARTICLE_DESC">
+            <option value="__all_com_k2_categories__">JOPTION_ALL_CATEGORIES</option>
+        </field>
+
+        <!-- Chosee K2 categories Blog-->
+        <field
+            name="_com_k2_categories_blog"
+            type="categoriesmultiple"
+            extension="com_k2"
+            default=""
+            label="AMD_COM_K2_CONTENT_CATEGORY_BLOG"
+            description="AMD_COM_K2_CONTENT_CATEGORY_BLOG_DESC">
+            <option value="__all_com_k2_categories__">JOPTION_ALL_CATEGORIES</option>
+        </field>
+
+        <!--
+        <field
+            name="category_id"
+            type="categoriesmultiple"
+            default=""
+            label="AMD_COM_K2_CONTENT_CATEGORY"
+            description="AMD_COM_K2_CONTENT_CATEGORY_DESC">
+            <option value="__all_com_content_categories__">JOPTION_ALL_CATEGORIES</option>
+        </field>
+        -->
+
+    </fieldset>
+
+    <!--
+        ***************************
+        ***** Author Settings *****
+        ***************************
+    -->
+    <fieldset name="Author">
+        <!-- Add author in microdata block regardless -->
+        <field 
+            name="amdcfg_author_add"
+            type="radio"
+            class="radio btn-group"
+            label="AMD_AUTHOR_FORCE_ADD"
+            default="1"
+            description="AMD_AUTHOR_FORCE_ADD_DESC">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+
+        <!-- Add author name or username (from foomla ACL) -->
+        <field 
+            name="amdcfg_author_name"
+            type="radio"
+            class="radio btn-group"
+            label="AMD_AUTHOR_NAME"
+            default="0"
+            description="AMD_AUTHOR_NAME_DESC">
+            <option value="0">AMD_AUTHOR_OPT_NAME</option>
+            <option value="1">AMD_AUTHOR_OPT_USERNAME</option>
+        </field>
+
+        <!-- Add author url -->
+        <field name="amdcfg_author_url" type="text" label="AMD_AUTHOR_URL"  default="" description="AMD_AUTHOR_URL_DESC"></field>
+
+        <!-- Add author image url -->
+        <field name="amdcfg_author_image_url" type="text" label="AMD_AUTHOR_IMAGE_URL"  default="" description="AMD_AUTHOR_IMAGE_URL_DESC"></field>
+        <field name="amdcfg_author_image_width"  type="text" label="AMD_AUTHOR_IMAGE_WIDTH"   default="" description="AMD_AUTHOR_IMAGE_WIDTH_DESC"></field>
+        <field name="amdcfg_author_image_height" type="text" label="AMD_AUTHOR_IMAGE_HEIGHT"  default="" description="AMD_AUTHOR_IMAGE_HEIGHT_DESC"></field>
+        
+        <!-- Author social network links -->
+        <field name="amdcfg_author_social01" type="text" label="AMD_AUTHOR_SOCIAL01"  default="" description="AMD_AUTHOR_SOCIAL_DESC"></field>
+        <field name="amdcfg_author_social02" type="text" label="AMD_AUTHOR_SOCIAL02"  default="" description="AMD_AUTHOR_SOCIAL_DESC"></field>
+        <field name="amdcfg_author_social03" type="text" label="AMD_AUTHOR_SOCIAL03"  default="" description="AMD_AUTHOR_SOCIAL_DESC"></field>
+        <field name="amdcfg_author_social04" type="text" label="AMD_AUTHOR_SOCIAL04"  default="" description="AMD_AUTHOR_SOCIAL_DESC"></field>
+        <field name="amdcfg_author_social05" type="text" label="AMD_AUTHOR_SOCIAL05"  default="" description="AMD_AUTHOR_SOCIAL_DESC"></field>
+        <field name="amdcfg_author_social06" type="text" label="AMD_AUTHOR_SOCIAL06"  default="" description="AMD_AUTHOR_SOCIAL_DESC"></field>
+    </fieldset>
+    
+    <!-- 
+        ******************************
+        ***** Publisher Settings *****
+        ******************************
+    -->
+    <fieldset name="Publisher">
+    <!--<field name="spacer_publisher_general" type="spacer" class="text" label="AMD_PUBLISHER_SPACER_BASIC"/>-->
+        <field name="spacer_publisher_general" type="spacer" label="&lt;hr /&gt;&lt;b&gt;Publisher basic information section&lt;/b&gt;"/>
+        <!-- Option to chose 'Person' or 'Organiztion' -->
+        <field name="amdcfg_publisher_type" type="list" label="AMD_PUBLISHER_TYPE"  default="Person" description="AMD_PUBLISHER_TYPE_DESC">
+            <option value="-">-- None --</option>
+            <option value="Person">Person</option>
+            <option value="Organization">Organization</option>
+        </field>
+        <field name="amdcfg_publisher_name" type="text" label="AMD_PUBLISHER_NAME"  default="" description="AMD_PUBLISHER_NAME_DESC"></field>
+        <field name="amdcfg_publisher_altname" type="text" label="AMD_PUBLISHER_ALTNAME"  default="" description="AMD_PUBLISHER_ALTNAME_DESC"></field>
+        <field name="amdcfg_publisher_description" type="text" label="AMD_PUBLISHER_DESCRIPTION"  default="" description="AMD_PUBLISHER_DESCRIPTION_DESC"></field>
+    <!--<field name="amdcfg_publisher_logo_url" type="text" label="AMD_PUBLISHER_LOGO_URL" description="AMD_PUBLISHER_DESCRIPTION_DESC"   default="" ></field>-->
+        <field name="amdcfg_publisher_logo_url" type="media" default="" label="AMD_PUBLISHER_LOGO_URL" description="AMD_PUBLISHER_LOGO_URL_DESC" directory="/" />
+        <field name="amdcfg_publisher_logo_width"  type="text" label="AMD_PUBLISHER_LOGO_WIDTH"   default="" description="AMD_PUBLISHER_LOGO_WIDTH_DESC"></field>
+        <field name="amdcfg_publisher_logo_height" type="text" label="AMD_PUBLISHER_LOGO_HEIGHT"  default="" description="AMD_PUBLISHER_LOGO_HEIGHT_DESC"></field>
+        <field name="amdcfg_publisher_social01" type="text" label="AMD_PUBLISHER_SOCIAL01"  default="" description="AMD_PUBLISHER_SOCIAL_DESC"></field>
+        <field name="amdcfg_publisher_social02" type="text" label="AMD_PUBLISHER_SOCIAL02"  default="" description="AMD_PUBLISHER_SOCIAL_DESC"></field>
+        <field name="amdcfg_publisher_social03" type="text" label="AMD_PUBLISHER_SOCIAL03"  default="" description="AMD_PUBLISHER_SOCIAL_DESC"></field>
+        <field name="amdcfg_publisher_social04" type="text" label="AMD_PUBLISHER_SOCIAL04"  default="" description="AMD_PUBLISHER_SOCIAL_DESC"></field>
+        <field name="amdcfg_publisher_social05" type="text" label="AMD_PUBLISHER_SOCIAL05"  default="" description="AMD_PUBLISHER_SOCIAL_DESC"></field>
+        <field name="amdcfg_publisher_social06" type="text" label="AMD_PUBLISHER_SOCIAL06"  default="" description="AMD_PUBLISHER_SOCIAL_DESC"></field>
+        <!-- Extended Publisher (Organization) Address. see http://www.schema.org/ -->
+        
+    <!--<field name="spacer_publisher_addresses" type="spacer" class="text" label="AMD_PUBLISHER_SPACER_ADDRESS"/>&lt;b&gt;Publisher adresses section&lt;/b&gt;   &lt;hr /&gt;-->
+        <field name="spacer_publisher_addresses" type="spacer" label="&lt;hr /&gt;&lt;b&gt;Publisher adresses section&lt;/b&gt;"/>
+        <field name="amdcfg_publisher_address"
+            type="radio"
+            class="radio btn-group"
+            label="AMD_PUBLISHER_ADDRESS"
+            default="0"
+            description="AMD_PUBLISHER_ADDRESS_DESC">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field name="amdcfg_pub_addressLocality" type="text" label="AMD_PUB_ADDRESSLOCALITY"  default="" description="AMD_PUB_ADDRESSLOCALITY_DESC"></field>
+        <field name="amdcfg_pub_addressRegion" type="text" label="AMD_PUB_ADDRESSREGION"  default="" description="AMD_PUB_ADDRESSREGION_DESC"></field>
+        <field name="amdcfg_pub_addressCountry" type="text" label="AMD_PUB_ADDRESSCOUNTRY"  default="" description="AMD_PUB_ADDRESSCOUNTRY_DESC"></field>
+        <field name="amdcfg_pub_postalCode" type="text" label="AMD_PUB_POSTALCODE"  default="" description="AMD_PUB_POSTALCODE_DESC"></field>
+        <field name="amdcfg_pub_streetAddress" type="text" label="AMD_PUB_ADDRESSSTREET"  default="" description="AMD_PUB_ADDRESSSTREET_DESC"></field>
+        <field name="amdcfg_pub_email" type="text" label="AMD_PUB_EMAIL"  default="" description="AMD_PUB_EMAIL_DESC"></field>
+        <field name="amdcfg_pub_faxNumber" type="text" label="AMD_PUB_FAXNUMBER"  default="" description="AMD_PUB_FAXNUMBER_DESC"></field>
+        <field name="amdcfg_pub_telephone" type="text" label="AMD_PUB_PHONENUMBER"  default="" description="AMD_PUB_PHONENUMBER_DESC"></field>
+        <!-- Extended Publisher (Organization) Foundation. see http://www.schema.org/ -->
+    <!--<field name="spacer_plublisher_foundation" type="spacer" class="text" label="AMD_PUBLISHER_SPACER_FOUNDATION"/>-->
+        <field name="spacer_plublisher_foundation" type="spacer" class="text" label="&lt;hr /&gt;&lt;b&gt;Publisher Company foundation section&lt;/b&gt;"/>
+        <field name="amdcfg_publisher_foundation"
+            type="radio"
+            class="radio btn-group"
+            label="AMD_PUBLISHER_FOUNDINGDATA"
+            default="1"
+            description="AMD_PUBLISHER_FOUNDINGDATA_DESC">
+            <option value="0">JNO</option>
+            <option value="1">JYES</option>
+        </field>
+        <field name="amdcfg_pub_founder" type="text" label="AMD_PUB_FOUNDER"  default="" description="AMD_PUB_FOUNDER_DESC"></field>
+        <field name="amdcfg_pub_foundingDate" type="text" label="AMD_PUB_FOUNDINDATE"  default="" description="AMD_PUB_FOUNDINDATE_DESC"></field>
+        <field name="amdcfg_pub_foundingLocation" type="text" label="AMD_PUB_FOUNDINGLOCATION"  default="" description="AMD_PUB_FOUNDINGLOCATION_DESC"></field>
+        <!-- -->
+    </fieldset>
+
+    <!-- ***** Advanced Settings ***** -->
+    <!-- !!! Available in some future verion !!!
+    <fieldset name="advanced">
+      <field name="amdcfg_css" type="textarea" label="AMD_CUSTOM_CSS_LABEL" description="AMD_CUSTOM_CSS_LABEL_DESC" rows="10" cols="25" default="#asdMicrodataBlock {&#13;&#10;background-color:#eee;&#13;&#10;border:1px solid #333;&#13;&#10;color:#333;&#13;&#10;display:inherit;&#13;&#10;}"
+      />
+    </fieldset>
+    -->
+  </fields>
+</config>
+</extension>
