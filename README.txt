@@ -3,10 +3,10 @@ README.txt
 This is a beta version of the Joomla! plugin 'plg_articlemicrodata'.
 Details on Release Notes will be published when 'stable' version will be released.
 
-** Description
+## Description
 This plugin automatically generates structured data (aka schema markup) to a Joomla website.
 
-** Installation
+## Installation
 To install the plugin, follow the procedure described below.
 
 1. Point you preferred browser to https://www.diprimio.com/risorse/download.
@@ -18,11 +18,11 @@ To install the plugin, follow the procedure described below.
 6. Verify the plugin is successfully installed
 7. You are set.
 
-*** Configuration
+## Configuration
 Configuration instruction will be available soon.
 
-*** Documentation
+## Documentation
 Documentation will be available soon.
 
 
-# end-of-file
+end-of-file
